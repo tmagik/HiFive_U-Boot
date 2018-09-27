@@ -193,19 +193,6 @@ static inline void store_block(int block, uchar *src, unsigned len)
 #endif /* CONFIG_SYS_DIRECT_FLASH_TFTP */
 	{
 		void *ptr = map_sysmem(load_addr + offset, len);
-	//	uint32_t *padma = (uint32_t *)0x80000000;
-	/*	if(offset >= 129220)
-		{
-			puts("\nStarting again0\n");
-		}
-		if(offset >= 130652)
-		{
-			puts("\nStarting again0\n");
-			memcpy(ptr, src, 420);
-			memcpy(ptr+420, src, len);
-		}*/
-	//	if(*padma == 0xFFFFFFFF)
-	//		puts("\nStarting again1\n");
 		memcpy(ptr, src, len);
 		unmap_sysmem(ptr);
 	}
