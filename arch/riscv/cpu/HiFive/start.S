@@ -102,6 +102,13 @@ trap_vector:
   li a0, IRQ_M_SOFT * 2
   bne a0, a1, .Lbad_trap
 
+  li s1, 0x2000000
+  csrr s2, mhartid
+  slli s2, s2, 2
+  add s2, s2, s1
+  sw zero, 0(s2)
+
+  j .Lmret
   # Yes. First clear the MIPI bit.
   LREG a0, MENTRY_IPI_OFFSET(sp)
   sw x0, (a0)
@@ -283,7 +290,7 @@ do_reset:
   li  x29,0
   li  x30,0
   li  x31,0
-
+  csrw mscratch, 0
   # enable FPU and accelerator if present
   li t0, MSTATUS_FS | MSTATUS_XS
   csrs mstatus, t0
@@ -364,24 +371,32 @@ do_reset:
   #csrs sie, SIP_SSIP
   #csrs sip, SIP_SSIP
 #  set_csr(mstatus, MSTATUS_MIE);
-  csrs mstatus, MSTATUS_MIE;         #generates sw interrupt
+#  csrs mstatus, MSTATUS_MIE;         #generates sw interrupt
   #FIXME: The wfi instruction here is not stopping code on startup. Assume there is interrupt pending? Will return and investigate.
-  csrw mscratch, 0
-  csrw mcause, 0
-  csrw mepc, 0
+#  csrw mscratch, 0
+ # csrw mcause, 0
+ # csrw mepc, 0
   wfi
  # j main_other_hart
   # Only start if MIP_MSIP is set
   csrr a2, mip
   andi a2, a2, MIP_MSIP
   beqz a2, .LwaitOtherHart
+  fence
+  csrw mip, 0
+  li a2, 5
+  bltu a0, a2, .Lmain_other_hart
   #j .LendFirstHart
  # j main_other_hart
+  j .LwaitOtherHart
 
 .LendOtherHart:
   # while 1
   j .LendOtherHart
 
+.Lmain_other_hart:
+  li t4, 0x80000000
+  jr t4
 /*
  * Set stackpointer in internal/ex RAM to call board_init_f
  */
@@ -423,13 +438,13 @@ relocate_code:
 stack_setup:
     mv sp, s2
  /* with relocation */
-#if 0
+#if 1
     la t0, _start
     sub t6, s4, t0  /* t6 <- relocation offset */
     beq t0, s4, clear_bss   /* skip relocation */
 #endif
 /* without relocation*/
-#if 1
+#if 0
     la t0, _start
     li s5, CONFIG_SYS_TEXT_BASE
     sub t6, s5, t0  /* t6 <- relocation offset */

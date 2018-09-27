@@ -30,7 +30,7 @@ void timer_interrupt(struct pt_regs *regs)
 
 int timer_init(void)
 {
-#if 1
+#if 0
  //   g_systick_increment = CONFIG_SYS_RTCCLK_FREQ/10;
     timestamp = 0;
  //   if (g_systick_increment > 0)

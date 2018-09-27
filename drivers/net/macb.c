@@ -664,7 +664,7 @@ static int _macb_init(struct macb_device *macb, const char *name)
 	unsigned long paddr;
 	int ret;
 	int i;
-	arch_cpu_init();
+
 	/*
 	 * macb_halt should have been called at some point before now,
 	 * so we'll assume the controller is idle.

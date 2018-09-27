@@ -25,6 +25,9 @@
 	    volatile uint32_t  GEMGXLPLLCFG1;  /* 0x0020 */
 	    volatile uint32_t  CORECLKSEL;     /* 0x0024 */
 	    volatile uint32_t  DEVICERESETREG; /* 0x0028 */
+	    volatile uint32_t  CLKMUXSTATUSREG; /* 0x002C */
+	    volatile uint32_t  RESERVED[48]; /* 0x0028 */
+	    volatile uint32_t  PROCMONCFG; 	/* 0x00F0 */
 	} AloePRCI_TypeDef;
 
 AloePRCI_TypeDef *g_aloe_prci = (AloePRCI_TypeDef *)0x010000000ul;
@@ -184,7 +187,7 @@ int arch_cpu_init(void)
 		g_aloe_prci->GEMGXLPLLCFG1  = 0x80000000u; /* Switch to PLL as clock source */
 
 		g_aloe_prci->DEVICERESETREG |= 0x00000020u; /* Release MAC from reset */
-
+		g_aloe_prci->PROCMONCFG = 0x1 << 24u;
 		return 0;
 
 }

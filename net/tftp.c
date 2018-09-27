@@ -13,7 +13,7 @@
 #include <net.h>
 #include <net/tftp.h>
 #include "bootp.h"
-#include "asm/encoding.h"
+
 #ifdef CONFIG_SYS_DIRECT_FLASH_TFTP
 #include <flash.h>
 #endif
@@ -192,19 +192,22 @@ static inline void store_block(int block, uchar *src, unsigned len)
 	} else
 #endif /* CONFIG_SYS_DIRECT_FLASH_TFTP */
 	{
-/*		if(offset == 0)
-			printf("\n offset 0 starting again\n");*/
 		void *ptr = map_sysmem(load_addr + offset, len);
-/*		uint32_t *padma = (uint32_t *)0x80000000;
-		if(*padma == 0xFFFFFFFF)
-			printf("\n offset 1 starting again\n");
-		if(newsize > 32000)
-			printf("\n offset 2 starting again\n");*/
-		ulong data_mie = read_csr(mie);
-		write_csr(mie, 0);
+	//	uint32_t *padma = (uint32_t *)0x80000000;
+	/*	if(offset >= 129220)
+		{
+			puts("\nStarting again0\n");
+		}
+		if(offset >= 130652)
+		{
+			puts("\nStarting again0\n");
+			memcpy(ptr, src, 420);
+			memcpy(ptr+420, src, len);
+		}*/
+	//	if(*padma == 0xFFFFFFFF)
+	//		puts("\nStarting again1\n");
 		memcpy(ptr, src, len);
 		unmap_sysmem(ptr);
-		write_csr(mie, data_mie);
 	}
 #ifdef CONFIG_MCAST_TFTP
 	if (tftp_mcast_active)

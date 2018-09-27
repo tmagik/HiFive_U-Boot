@@ -45,7 +45,7 @@
 /*
  * Physical Memory Map
  */
-#if 1
+#if 0
 /*#define CONFIG_NR_DRAM_BANKS	1*/
 #define PHYS_SDRAM_0	0x08000000		/* SDRAM Bank #1 */
 #define PHYS_SDRAM_1	\
@@ -54,9 +54,9 @@
 #define PHYS_SDRAM_1_SIZE	0x001E0000	/* 1.92 MB */
 #define CONFIG_SYS_SDRAM_BASE	PHYS_SDRAM_0
 #endif
-#if 0
+#if 1
 /*#define CONFIG_NR_DRAM_BANKS	1*/
-#define PHYS_SDRAM_0	0x90000000		/* SDRAM Bank #1 */
+#define PHYS_SDRAM_0	0xA0000000		/* SDRAM Bank #1 */
 #define PHYS_SDRAM_1	\
 	(PHYS_SDRAM_0 + PHYS_SDRAM_0_SIZE)	/* SDRAM Bank #2 */
 #define PHYS_SDRAM_0_SIZE	0x10000000	/* 1.92 MB */
@@ -71,7 +71,7 @@
 #define CONSOLE_ARG				"console=ttyS0,115200\0"
 
 /* Init Stack Pointer */
-#define CONFIG_SYS_INIT_SP_ADDR		(0x08000000 + 0x00100000 - \
+#define CONFIG_SYS_INIT_SP_ADDR		(0x08000000 + 0x00040000 - \
 					GENERATED_GBL_DATA_SIZE)
 
 #define CONFIG_SYS_LOAD_ADDR		0x80000000	/* SDRAM */
@@ -102,7 +102,9 @@
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 
-#define	CONFIG_EXTRA_ENV_SETTINGS	"ethaddr=" __stringify(CONFIG_ETHADDR) "\0"
+#define	CONFIG_EXTRA_ENV_SETTINGS	"ethaddr=" __stringify(CONFIG_ETHADDR) "\0" \
+									"serverip=10.60.132.52\0" \
+									"ip_dyn=yes\0"
 
 #define CONFIG_SYS_MAX_FLASH_SECT	0
 #define CONFIG_SYS_MAX_FLASH_BANKS 0

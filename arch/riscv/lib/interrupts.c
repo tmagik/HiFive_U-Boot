@@ -120,7 +120,11 @@ void handle_m_timer_interrupt(struct pt_regs *regs)
  */
 void handle_m_soft_interrupt(void)
 {
-
+	asm volatile ("li s1, 0x2000000\n\t"
+	  "csrr s2, mhartid\n\t"
+	  "slli s2, s2, 2\n\t"
+	  "add s2, s2, s1\n\t"
+	  "sw zero, 0(s2)\n\t");
 }
 void trap_from_machine_mode(uintptr_t * regs, uintptr_t dummy, uintptr_t mepc)
 {
