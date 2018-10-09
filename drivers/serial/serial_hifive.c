@@ -28,7 +28,7 @@ typedef struct hifive_uart {
     u32 rxctrl;
     u32 ie;
     u32 ip;
-    u32 div
+    u32 div;
 } hifive_uart_t;
 
 /* Information about a serial port */

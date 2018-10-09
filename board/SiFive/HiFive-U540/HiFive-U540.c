@@ -13,7 +13,7 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-typedef struct
+struct hifive_gpio_regs
 {
     volatile uint32_t  INPUT_VAL;   /* 0x0000 */
     volatile uint32_t  INPUT_EN;    /* 0x0004 */
@@ -32,9 +32,9 @@ typedef struct
     volatile uint32_t  reserved0;   /* 0x0038 */
     volatile uint32_t  reserved1;   /* 0x003C */
     volatile uint32_t  OUT_XOR;     /* 0x0040 */
-} AloeGPIO_TypeDef;
+};
 
-AloeGPIO_TypeDef *g_aloe_gpio = (AloeGPIO_TypeDef *)0x10060000ul;
+struct hifive_gpio_regs *g_aloe_gpio = (struct hifive_gpio_regs *)HIFIVE_BASE_GPIO;
 
 
 /*
@@ -55,8 +55,8 @@ int dram_init(void)
 	unsigned long expected_size = PHYS_SDRAM_0_SIZE;/* + PHYS_SDRAM_1_SIZE;*/
 	unsigned long actual_size;
 
-	actual_size = PHYS_SDRAM_0_SIZE;/*get_ram_size((void *)sdram_base, expected_size);*/
-//	actual_size = get_ram_size((void *)sdram_base, expected_size);
+//	actual_size = PHYS_SDRAM_0_SIZE;/*get_ram_size((void *)sdram_base, expected_size);*/
+	actual_size = get_ram_size((void *)sdram_base, expected_size);
 	gd->ram_size = actual_size;
 
 	if (expected_size != actual_size) {
@@ -70,7 +70,7 @@ int dram_init(void)
 void reset_phy(void)
 {
     volatile uint32_t loop;
-    volatile uint32_t status;
+
 /*
  * Init includes toggling the reset line which is connected to GPIO 0 pin 12.
  * This is the only pin I can see on the 16 GPIO which is currently set as an.

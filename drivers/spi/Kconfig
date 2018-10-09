@@ -334,5 +334,10 @@ config OMAP3_SPI
 	  SPI master controller for OMAP24XX and later Multichannel SPI
 	  (McSPI). This driver be used to access SPI chips on platforms
 	  embedding this OMAP3 McSPI IP core.
-
+	  
+config HIFIVE_SPI
+    bool "HiFive SPI Driver"
+    help
+      Enable support for SPI on HiFive U54
+      
 endif # menu "SPI Support"

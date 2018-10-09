@@ -1627,6 +1627,13 @@ static int sd_select_mode_and_width(struct mmc *mmc, uint card_caps)
 	mmc_dump_capabilities("sd card", card_caps);
 	mmc_dump_capabilities("host", mmc->host_caps);
 #endif
+	if (mmc_host_is_spi(mmc))
+	{
+		mmc_select_mode(mmc, SD_LEGACY);
+		mmc_set_clock(mmc, mmc->tran_speed,
+			MMC_CLK_ENABLE);
+		return 0;
+	}
 
 	/* Restrict card's capabilities by what the host can do */
 	caps = card_caps & mmc->host_caps;
