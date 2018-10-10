@@ -65,7 +65,7 @@
 #define PHYS_SDRAM_0	0x80000000		/* SDRAM Bank #1 */
 #define PHYS_SDRAM_1	\
 	(PHYS_SDRAM_0 + PHYS_SDRAM_0_SIZE)	/* SDRAM Bank #2 */
-#define PHYS_SDRAM_0_SIZE	0x40000000	/* 1 GB */
+#define PHYS_SDRAM_0_SIZE	0x80000000	/* 2 GB */
 #define PHYS_SDRAM_1_SIZE	0x10000000	/* 256 MB */
 #define CONFIG_SYS_SDRAM_BASE	PHYS_SDRAM_0
 #endif
@@ -102,7 +102,8 @@
 
 #define CONFIG_BOOTFILE			"bbl.bin"
 
-
+/* DT blob (fdt) address */
+#define HIFIVE_FDT_BASE		0xF0000000
 /*
  * Ethernet
  */

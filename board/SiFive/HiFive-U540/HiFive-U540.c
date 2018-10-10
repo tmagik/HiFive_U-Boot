@@ -43,8 +43,8 @@ struct hifive_gpio_regs *g_aloe_gpio = (struct hifive_gpio_regs *)HIFIVE_BASE_GP
 
 int board_init(void)
 {
-	/*gd->bd->bi_arch_number = MACH_TYPE_AE250;*/
-	gd->bd->bi_boot_params = PHYS_SDRAM_0 + 0x400;
+	gd->bd->bi_arch_number = MACH_TYPE_HIFIVE_U540;
+	gd->bd->bi_boot_params = PHYS_SDRAM_0;
 
 	return 0;
 }
@@ -63,6 +63,8 @@ int dram_init(void)
 		printf("Warning: Only %lu of %lu MiB SDRAM is working\n",
 			actual_size >> 20, expected_size >> 20);
 	}
+	gd->fdt_size = ALIGN(fdt_totalsize(gd->fdt_blob) + 0x1000, 32);
+	memcpy((void *)HIFIVE_FDT_BASE, gd->fdt_blob, gd->fdt_size);
 
 	return 0;
 }

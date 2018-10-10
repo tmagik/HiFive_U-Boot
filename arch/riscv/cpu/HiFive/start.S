@@ -62,8 +62,9 @@ handle_reset:
   li  x7, 0
   li  x8, 0
   li  x9, 0
-  li  x10,0
-  li  x11,0
+  // save a0 and a1; arguments from previous boot loader stage:
+ // li  x10,0
+ // li  x11,0
   li  x12,0
   li  x13,0
   li  x14,0
@@ -108,8 +109,8 @@ handle_reset:
 
   # get core id
   csrr a0, mhartid
-  li a1, 1
-  bgeu a0, a1, .LbootOtherHart
+  li a3, 1
+  bgeu a0, a3, .LbootOtherHart
   # core 0 jumps to first hart
   j call_board_init_f
 
@@ -139,6 +140,8 @@ handle_reset:
   j .LwaitOtherHart
 
 .Lmain_other_hart:
+  csrr a0, mhartid
+  li a1, HIFIVE_FDT_BASE
   li t4, CONFIG_SYS_SDRAM_BASE
   jr t4
 /*

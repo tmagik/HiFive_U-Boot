@@ -425,10 +425,12 @@ int do_bdinfo(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	bd_t *bd = gd->bd;
 
 	print_num("arch_number", bd->bi_arch_number);
-	print_bi_boot_params(bd);
 	print_bi_dram(bd);
 	print_eth_ip_addr();
 	print_baudrate();
+
+	print_num("relocaddr", gd->relocaddr);
+	print_num("fdt_blob", (ulong)gd->fdt_blob);
 
 	return 0;
 }
