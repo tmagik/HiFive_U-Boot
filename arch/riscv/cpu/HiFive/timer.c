@@ -17,30 +17,15 @@
 	volatile uint32_t* timecmp = (volatile uint32_t*)HIFIVE_BASE_TIMECMP;
 #endif
 
-#define CONFIG_SYS_RTCCLK_FREQ		1000000
+/* 10MHz clock */
+#define CONFIG_SYS_RTCCLK_FREQ		1078071040
 
-volatile ulong timestamp = 0UL;
-
-void timer_interrupt(struct pt_regs *regs)
-{
-    clear_csr(mie, MIP_MTIP);
-    timestamp++;
-    *timecmp = *mtime + CONFIG_SYS_RTCCLK_FREQ;
-    set_csr(mie, MIP_MTIP);
-}
+volatile ulong starttime = 0UL;
 
 int timer_init(void)
 {
-#if 0
-    timestamp = 0;
-    if (mtime && timecmp)
-    {
-    	*timecmp = *mtime + CONFIG_SYS_RTCCLK_FREQ;
-    }
-    set_csr(mie, MIP_MTIP);
-    set_csr(mstatus, MSTATUS_MIE);
-#endif
-	return 0;
+        starttime = *mtime;
+        return 0;
 }
 
 /*
@@ -48,21 +33,23 @@ int timer_init(void)
  */
 ulong get_timer(ulong base)
 {
-	return timestamp - base;
+        ulong now = *mtime;
+	return (now - starttime)/1000 - base;
 }
 
-/* delay x useconds AND preserve advance timestamp value */
+/* delay x useconds */
 void __udelay(unsigned long usec)
 {
-	/*u32 i;
+	u64 i;
+        usec *= CONFIG_SYS_RTCCLK_FREQ / 1000000000;
 	i = get_timer(0);
-	while ((get_timer(0) - i) < (usec / 1000));*/
-	while(usec--);
+	while ((get_timer(0) - i) < usec)
+            ;
 }
 
 /*
  * This function is derived from PowerPC code (read timebase as long long).
- * On RISC-V it just returns the timer value.
+ * On RISC-V it just returns the timer value (uSec since boot)
  */
 unsigned long long get_ticks(void)
 {
@@ -76,5 +63,6 @@ unsigned long long get_ticks(void)
 ulong get_tbclk(void)
 {
 
-	return CONFIG_SYS_HZ;
+//	return CONFIG_SYS_HZ;
+        return CONFIG_SYS_RTCCLK_FREQ/1000;
 }

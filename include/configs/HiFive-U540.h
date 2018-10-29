@@ -17,7 +17,7 @@
  */
 
 #define CONFIG_BOOTP_SEND_HOSTNAME
-#define CONFIG_BOOTP_SERVERIP
+//#define CONFIG_BOOTP_SERVERIP
 
 /*
  * Miscellaneous configurable options

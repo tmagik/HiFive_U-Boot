@@ -88,13 +88,15 @@ static void hifive_uart_putc(char ch)
 	writel(ch, &usart->txdata);
 }
 
+static int lastread;
+
 static int hifive_uart_getc(void)
 {
 
 	hifive_uart_t *usart = (hifive_uart_t *)HIFIVE_UART_BASE_ADDR;
 	int ch;
-	ch = readl(&usart->rxdata);
-
+	ch = lastread;
+        lastread = UART_RXFIFO_EMPTY;
 	while((ch & UART_RXFIFO_EMPTY) != 0)
 	{
 		ch = readl(&usart->rxdata);
@@ -104,8 +106,10 @@ static int hifive_uart_getc(void)
 
 static int hifive_uart_tstc(void)
 {
-
-    return 0;
+	hifive_uart_t *usart = (hifive_uart_t *)HIFIVE_UART_BASE_ADDR;
+        if (lastread & UART_RXFIFO_EMPTY)
+                lastread = readl(&usart->rxdata);
+        return !(lastread & UART_RXFIFO_EMPTY);
 }
 
 static struct serial_device hifive_uart_drv = {
