@@ -14,7 +14,7 @@ ifeq ($(CROSS_COMPILE),)
 ifdef CONFIG_32BIT
 CROSS_COMPILE := riscv32-unknown-linux-gnu-
 else
-CROSS_COMPILE := riscv64-unknown-linux-gnu-
+CROSS_COMPILE := riscv64-linux-gnu-
 endif
 endif
 

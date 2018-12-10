@@ -124,7 +124,6 @@
 #define CONFIG_ENV_OVERWRITE
 
 #define	CONFIG_EXTRA_ENV_SETTINGS	"ethaddr=" __stringify(CONFIG_ETHADDR) "\0" \
-									"serverip=10.60.132.52\0" \
 									"ip_dyn=yes\0"
 
 #define CONFIG_SYS_MAX_FLASH_SECT	0
@@ -137,5 +136,8 @@
 
 #define CONFIG_ENV_SIZE		0x400   /* Total Size of Environment, 128KB */
 
+
+#define CONFIG_SYS_BAUDRATE_TABLE {9600,19200,38400,57600,115200,230400,460800,921600}
+#define CONFIG_SYS_LOADS_BAUD_CHANGE 1		/* allow baudrate change */
 
 #endif /* __CONFIG_H */
