@@ -95,7 +95,7 @@ CONFIG_QSPI_BOOT=y
 # CONFIG_SATA_BOOT is not set
 CONFIG_SD_BOOT=y
 CONFIG_SPI_BOOT=y
-CONFIG_BOOTDELAY=1
+CONFIG_BOOTDELAY=3
 # CONFIG_USE_BOOTARGS is not set
 CONFIG_USE_BOOTCOMMAND=y
 CONFIG_BOOTCOMMAND="mmc_spi 1 20000000 0; mmc part; dhcp; echo go ${fileaddr} ${fdtcontroladdr} in 3..; sleep 3; go ${fileaddr} ${fdtcontroladdr}"

@@ -2,6 +2,8 @@
 /*
  * Copyright (C) 2018 Microsemi Corporation.
  * Padmarao Begari <Padmarao.Begari@microsemi.com>
+ * Copyright (C) 2018 SiFive Inc.
+ * Troy Benjegerdes <troy.benjegerdes@sifive.com>
  */
 
 
@@ -17,9 +19,6 @@
 	volatile uint32_t* timecmp = (volatile uint32_t*)HIFIVE_BASE_TIMECMP;
 #endif
 
-/* 10MHz clock */
-#define CONFIG_SYS_RTCCLK_FREQ		1078071040
-
 volatile ulong starttime = 0UL;
 
 int timer_init(void)
@@ -34,16 +33,15 @@ int timer_init(void)
 ulong get_timer(ulong base)
 {
         ulong now = *mtime;
-	return (now - starttime)/1000 - base;
+	return (now - starttime)/(CONFIG_SYS_HZ_CLOCK/CONFIG_SYS_HZ) - base;
 }
 
 /* delay x useconds */
 void __udelay(unsigned long usec)
 {
-	u64 i;
-        usec *= CONFIG_SYS_RTCCLK_FREQ / 1000000000;
-	i = get_timer(0);
-	while ((get_timer(0) - i) < usec)
+	/* as long as 1 tick is 1 usec, optimize.. */
+	int start = get_timer(0);
+	while ((get_timer(0) + usec) <= start)
             ;
 }
 
@@ -62,7 +60,5 @@ unsigned long long get_ticks(void)
  */
 ulong get_tbclk(void)
 {
-
-//	return CONFIG_SYS_HZ;
-        return CONFIG_SYS_RTCCLK_FREQ/1000;
+	return CONFIG_SYS_HZ_CLOCK;
 }

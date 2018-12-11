@@ -140,4 +140,7 @@
 #define CONFIG_SYS_BAUDRATE_TABLE {9600,19200,38400,57600,115200,230400,460800,921600}
 #define CONFIG_SYS_LOADS_BAUD_CHANGE 1		/* allow baudrate change */
 
+/* 1MHz RTC clock, SiFive FU540-C000 Manual, section 7 */
+#define CONFIG_SYS_HZ_CLOCK	1000000
+
 #endif /* __CONFIG_H */
