@@ -40,8 +40,9 @@ ulong get_timer(ulong base)
 void __udelay(unsigned long usec)
 {
 	/* as long as 1 tick is 1 usec, optimize.. */
+	/* TODO: audit this code for bad behavior on overflow */
 	int start = get_timer(0);
-	while ((get_timer(0) + usec) <= start)
+	while ((get_timer(0) - usec) < start)
             ;
 }
 
