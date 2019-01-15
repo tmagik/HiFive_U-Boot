@@ -104,7 +104,7 @@
 #define CONFIG_SYS_SPI_CLK			(CONFIG_SYS_CLK_FREQ / 2)
 #define CONFIG_ENV_SPI_MAX_HZ		25000000
 
-#define CONFIG_BOOTFILE			"bbl.bin"
+#define CONFIG_BOOTFILE			"hifiveu.fit"
 
 /* DT blob (fdt) address */
 #define HIFIVE_FDT_BASE		0xF0000000

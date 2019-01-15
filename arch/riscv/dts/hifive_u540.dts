@@ -13,7 +13,7 @@
 
 	chosen {
 		/* bootargs = "console=ttySIF0,921600"; */
-		bootargs = "debug console=tty0 console=ttySIF0";
+		bootargs = "debug console=tty0 console=ttySIF0 root=/dev/nvme0n1";
 		/* bootargs = "debug console=ttySIF0,921600 console=tty0 root=/dev/nfs ip=dhcp"; */
 		/* bootargs = "debug console=ttySIF0,921600 root=/dev/nfs"; */
 	};
