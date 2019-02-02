@@ -98,7 +98,7 @@ CONFIG_SPI_BOOT=y
 CONFIG_BOOTDELAY=3
 # CONFIG_USE_BOOTARGS is not set
 CONFIG_USE_BOOTCOMMAND=y
-CONFIG_BOOTCOMMAND="run mmcsetup; run fdtsetup; setenv fileaddr 0x90000000; fatload mmc 0:1 ${fileaddr} uEnv.txt; env import -t ${fileaddr} ${filesize}; echo 'run boot2 in 2..'; sleep 2; run boot2"
+CONFIG_BOOTCOMMAND="run mmcsetup; run fdtsetup; setenv fileaddr 0x90000000; fatload mmc 0:1 ${fileaddr} uEnv.txt; env import -t ${fileaddr} ${filesize}; echo 'Running uEnv.txt boot2...'; run boot2"
 
 #
 # Console

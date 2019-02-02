@@ -133,7 +133,9 @@
 		"fdt_high=0xffffffffffffffff\0" \
 		"fdtsetup=fdt addr ${fdtcontroladdr}; fdt chosen;" \
 			"fdt set /firmware sifive,uboot " __stringify(PLAIN_VERSION) ";" \
-			"fdt set /chosen bootargs console=ttySIF0,${baudrate}\0"
+			"fdt set /chosen bootargs console=ttySIF0,${baudrate}\0" \
+		"fatenv=setenv fileaddr a0000000; fatload mmc 0:1 ${fileaddr} uEnv.txt;" \
+			"env import -t ${fileaddr} ${filesize}"
 
 #define CONFIG_SYS_MAX_FLASH_SECT	0
 #define CONFIG_SYS_MAX_FLASH_BANKS 0
