@@ -4,6 +4,9 @@ menu "RISCV architecture"
 config SYS_ARCH
 	default "riscv"
 
+config NVDLA_IOFPGA
+    bool "Support NVDLA IOFPGA"
+
 choice
 	prompt "Target select"
 	optional
