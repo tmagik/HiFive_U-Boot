@@ -124,7 +124,15 @@
 #define CONFIG_ENV_OVERWRITE
 
 #define	CONFIG_EXTRA_ENV_SETTINGS	"serverip=10.60.132.52\0" \
-									"ip_dyn=yes\0"
+									"ip_dyn=yes\0" \
+									"uboot_version=" __stringify(PLAIN_VERSION) "\0" \
+									"mmcsetup=mmc_spi 1 20000000 0; mmc part\0" \
+									"fdt_high=0xffffffffffffffff\0" \
+									"fdtsetup=fdt addr ${fdtcontroladdr}; fdt chosen;" \
+									"fdt set /firmware sifive,uboot " __stringify(PLAIN_VERSION) ";" \
+									"fdt set /chosen bootargs console=ttySIF0,${baudrate}\0" \
+									"fatenv=setenv fileaddr a0000000; fatload mmc 0:1 ${fileaddr} uEnv.txt;" \
+									"env import -t ${fileaddr} ${filesize}"
 
 #define CONFIG_SYS_MAX_FLASH_SECT	0
 #define CONFIG_SYS_MAX_FLASH_BANKS 0
